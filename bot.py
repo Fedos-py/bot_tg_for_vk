@@ -27,14 +27,17 @@ def append_friends(update, context):
             vk_session.auth()
             vk = vk_session.get_api()
             for elem in data['items']:
-                mutual = vk.friends.getMutual(target_uid=elem['id'])
-                if len(mutual) >= quantity_mutual_friends:
-                    vk.friends.add(user_id=elem['id'])
-                    update.message.reply_text(a_lot_of_mutual_friends.format(elem["id"], i))
-                    success += 1
+                if i != 62:
+                    mutual = vk.friends.getMutual(target_uid=elem['id'])
+                    if len(mutual) >= quantity_mutual_friends:
+                        vk.friends.add(user_id=elem['id'])
+                        update.message.reply_text(a_lot_of_mutual_friends.format(elem["id"], i))
+                        success += 1
+                    else:
+                        update.message.reply_text(few_or_no_mutual_friends.format(quantity_mutual_friends, i))
+                    i += 1
                 else:
-                    update.message.reply_text(few_or_no_mutual_friends.format(quantity_mutual_friends, i))
-                i += 1
+                    update.message.reply_text(f'Попытались отправить {i} заявок. Из них {success} удачно.')
             i = 1
             success = 0
         except Exception as exep:
