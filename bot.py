@@ -38,6 +38,7 @@ def append_friends(update, context):
                     i += 1
                 else:
                     update.message.reply_text(f'Попытались отправить {i} заявок. Из них {success} удачно.')
+                    break
             i = 1
             success = 0
         except Exception as exep:
